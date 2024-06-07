@@ -2,7 +2,7 @@ import mongoose from "mongoose"; // импортируем библиотеку 
 
 // схема модели пользователя (поля и типы данных)
 const UserSchema = new mongoose.Schema({
-    name: {
+    fullName: {
         type: String, // тип данных
         required: true // required - обязательное поле
     },

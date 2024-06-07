@@ -8,6 +8,7 @@ import { validationResult } from 'express-validator'; // загружаем vali
 import { registerValidation } from './validations/auth.js'; // загружаем файл с валидацией при регистрации
 
 import UserModel from './models/User.js';
+import checkAuth from './utils/checkAuth.js';
 
 mongoose
 .connect(
@@ -43,7 +44,7 @@ app.post('/auth/login', async( req, res ) => {
         const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
 
         if (!isValidPass) {
-            return res.status(404).json({ message: 'Неверный логин или пароль' });
+            return res.status(400).json({ message: 'Неверный логин или пароль' });
         }
 
         // генерируем токен для пользователя
@@ -144,6 +145,25 @@ app.post('/auth/register', registerValidation, async( req, res ) => {
         res.status(500).json({ message: 'Некорректные данные при регистрации' }); 
     }
 
+});
+
+// получение информации о пользователе
+app.get('/auth/me', checkAuth, async( req, res ) => {
+    try {
+        const user = await UserModel.findById(req.userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'Пользователь не найден' });
+        }
+
+        const { passwordHash, ...userData } = user._doc
+        
+        // возвращаем пользователя
+        res.json({userData});
+
+    } catch (error) {
+        res.status(500).json({ message: 'Нет доступа' });
+    }
 });
 
 // запускаем сервер

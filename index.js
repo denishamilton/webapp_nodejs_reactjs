@@ -43,16 +43,16 @@ app.post('/auth/register', registerValidation, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getMe);
 
 // получение всех постов
-// app.get('/posts', PostController.getAll);
+app.get('/posts', PostController.getAll);
 
 // получение одного поста
-// app.get('/posts:id', PostController.getOne);
+app.get('/posts/:id', PostController.getOne);
 
 // создание поста
 app.post('/posts', checkAuth , postCreateValidation , PostController.create);
 
 // удаление поста
-// app.delete('/posts', PostController.remove);
+app.delete('/posts/:id', checkAuth, PostController.remove);
 
 // обновление поста
 // app.patch('/posts, PostController.update);

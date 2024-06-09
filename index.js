@@ -4,17 +4,13 @@ import mongoose from 'mongoose'; // загружаем библиотеку mong
 import multer from 'multer'; // загружаем библиотеку multer для работы с файлами
 
 import { registerValidation, loginValidation, postCreateValidation } from './validations.js'; // загружаем файл с валидацией при регистрации
-import checkAuth from './utils/checkAuth.js';
 
-// Первый способ импорта контроллеров
-// import { register, login, getMe } from './controllers/UserController.js';
+// импортируем контроллеры из папки controllers
+import { UserController, PostController } from './controllers/index.js';
 
-// Второй способ импорта контроллеров, Сохраняя все контроллеры в переменную UserController
-import * as UserController from './controllers/UserController.js';
+// импортируем функцию для проверки авторизации и обработки ошибок
+import { handleValitationsErrors , checkAuth } from './utils/index.js';
 
-// Импорт контроллера постов
-import * as PostController from './controllers/PostController.js';
-import handleValitationsErrors from './utils/handleValitationsErrors.js';
 
 mongoose
 .connect(

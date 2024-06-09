@@ -2,21 +2,13 @@
 
 import jwt from 'jsonwebtoken'; // загружаем библиотеку jwt
 import bcrypt from 'bcrypt'; // загружаем библиотеку bcrypt для шифрования пароля
-import { validationResult } from 'express-validator'; // загружаем validationResult - функцию для проверки валидности данных из библиотеки express-validator 
 import UserModel from '../models/User.js'; // загружаем модель пользователя
 
 // регистрация пользователя (регистрация)
 export const register = async( req, res ) => {
 
     try {
-        const errors = validationResult(req);
 
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Некорректные данные при регистрации'
-            });
-        }
     
         // шифруем пароль
         const password = req.body.password; // получаем пароль из тела запроса 

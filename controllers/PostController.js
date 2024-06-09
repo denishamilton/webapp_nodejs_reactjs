@@ -150,3 +150,30 @@ export const create = async(req, res) => {
         res.status(500).json({ message: 'Не удалось создать пост' });
     }
 }
+
+export const update = async(req, res) => {
+    try {
+        // чтобы вытащить динамический параметр из URL :id, используем req.params
+        // получение поста по id. params - параметры запроса. id - идентификатор поста
+        const postId = req.params.id;
+
+        await PostModel.updateOne({
+            _id: postId
+        }, {
+            title: req.body.title, // получаем заголовок
+            text: req.body.text, // получаем текст поста
+            imageUrl: req.body.imageUrl, // получаем ссылку на изображение
+            user: req.userId, // получаем _id пользователя
+            tags: req.body.tags, // получаем массив тегов
+        },
+    );
+
+    res.json({
+        success: true
+    })
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Не удалось обновить пост' });
+    }
+}

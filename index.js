@@ -55,7 +55,7 @@ app.post('/posts', checkAuth , postCreateValidation , PostController.create);
 app.delete('/posts/:id', checkAuth, PostController.remove);
 
 // обновление поста
-// app.patch('/posts, PostController.update);
+app.patch('/posts/:id', checkAuth , PostController.update);
 
 // запускаем сервер
 const port = process.env.PORT || 5000;
